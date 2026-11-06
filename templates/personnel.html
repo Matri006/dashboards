@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Движение персонала · ОДК - Контур развития{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='personnel.js') }}" defer></script>{% endblock %}
+{% block content %}
+  <header class="page-heading">
+    <p class="eyebrow">04 / КОНТУР РАЗВИТИЯ</p>
+    <h1>Движение персонала до 35 лет</h1>
+    <p class="page-heading__subtitle">Численность, приём, увольнения и частота причин увольнения по форме F10.</p>
+    <span class="status form-tag">F10 · Движение персонала</span>
+  </header>
+  {% if reports %}
+  <section class="source-panel" aria-label="Источник данных">
+    <div class="file-icon">X</div>
+    <div class="source-info">
+      <span class="mini-label">ИСТОЧНИК ДАННЫХ</span>
+      <label class="visually-hidden" for="report-select">Отчёт</label>
+      <select id="report-select">{% for report in reports %}<option value="{{ loop.index0 }}">{{ report.filename }}</option>{% endfor %}</select>
+    </div>
+    <span class="demo-tag" id="demo-tag" hidden>Демо · случайные данные</span>
+  </section>
+  <div id="warnings" role="status"></div>
+  <div id="personnel-content">
+    <section class="metrics personnel-metrics" id="personnel-kpis" aria-label="Основные показатели"></section>
+    <section class="panel personnel-chart">
+      <div class="panel-heading"><div><h2>Движение персонала по категориям</h2><p>Возраст до 35 лет включительно, человек</p></div></div>
+      <div id="personnel-category-chart"></div>
+    </section>
+    <section class="panel personnel-chart">
+      <div class="panel-heading"><div><h2>Причины увольнения</h2><p>Учитываются строки с уволенными; общие группы с подкатегориями и строка «Итого» исключены</p></div></div>
+      <div id="personnel-reason-chart"></div>
+    </section>
+    <section class="panel personnel-detail">
+      <div class="panel-heading"><div><h2>Состав формы</h2><p>Подкатегории показаны отдельно и не суммируются с основными категориями</p></div></div>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead><tr><th scope="col">Категория персонала</th><th scope="col">Среднесписочная численность</th><th scope="col">Уволено</th><th scope="col">Принято</th><th scope="col">Основные причины увольнения</th></tr></thead>
+          <tbody id="personnel-detail-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  {% else %}
+  <section class="panel welcome">
+    <div class="welcome-icon">▥</div>
+    <h2>Нет загруженных отчётов F10</h2>
+    <p>Загрузите форму движения персонала, чтобы увидеть показатели и причины увольнения.</p>
+    <div class="welcome-actions">
+      <form action="{{ url_for('personnel') }}" method="post"><button class="button button--primary" type="submit">Открыть пример F10</button></form>
+      <a class="button" href="{{ url_for('index') }}">Загрузить свой файл</a>
+    </div>
+  </section>
+  {% endif %}
+{% endblock %}
+{% block data %}<script type="application/json" id="report-data">{{ reports | tojson }}</script>{% endblock %}
