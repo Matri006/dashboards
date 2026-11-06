@@ -3,11 +3,13 @@
 {% block content %}
 
   <header class="page-heading"><p class="eyebrow">ИСТОЧНИКИ / КОНТУР РАЗВИТИЯ</p><h1>Загрузка Excel-отчётов</h1></header>
-  <p class="muted">Загрузите отчёт для просмотра показателей. Для формы F02A доступны графики и фильтры по году, вузу и программе.</p>
+  <p class="muted">Загрузите отчёт для просмотра показателей. Для F02A доступны графики и фильтры, для F10 — отдельная страница движения персонала.</p>
   <section class="panel upload-panel">
     <h2>Попробовать на примере</h2>
     <p class="muted">Копия таблицы «Зафарова» со случайными демонстрационными данными.</p>
     <form action="{{ url_for('demo') }}" method="post"><button class="button button--primary" type="submit">Открыть демо-дашборд →</button></form>
+    <p class="muted">Форма движения персонала из папки examples (в исходной книге числовые показатели пока пусты).</p>
+    <form action="{{ url_for('personnel') }}" method="post"><button class="button" type="submit">Открыть дашборд движения персонала →</button></form>
     <p><a href="{{ url_for('download_demo') }}">Скачать демо Excel</a> · <a href="{{ url_for('dashboards') }}">К последнему дашборду</a></p>
   </section>
   <section class="panel upload-panel">

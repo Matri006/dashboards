@@ -17,6 +17,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("DASHBOARDS_SECRET_KEY") or token_hex(32)
 app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax")
 DEMO_FILE = Path(__file__).parent / "examples" / "Зафарова_демо.xlsx"
+PERSONNEL_FILE = Path(__file__).parent / "examples" / "10. УРП Движение персонала в возрасте до 35 лет.xlsx"
 app.config["MAX_CONTENT_LENGTH"] = 210 * 1024 * 1024
 MAX_FILES = 20
 MAX_FILE_SIZE = 10 * 1024 * 1024
@@ -45,13 +46,16 @@ def index():
                     results.append({"filename": file.filename, "error": "Не удалось прочитать файл. Проверьте, что это исправная книга .xlsx."})
             if results and all(result.get("profile") and result["profile"].code != "FEX" for result in results):
                 session["report_key"] = report_store.save(results)
+                if any(result["profile"].code == "F10" for result in results):
+                    return redirect(url_for("personnel"))
                 return redirect(url_for("dashboards"))
     return render_template("index.html", profiles=PROFILES, results=results, page_error=page_error)
 
 
 @app.route("/dashboards")
 def dashboards():
-    return render_template("dashboards.html", reports=current_reports(), active="students")
+    reports = [report for report in current_reports() if report["code"] != "F10"]
+    return render_template("dashboards.html", reports=reports, active="students")
 
 
 def current_reports():
@@ -59,6 +63,7 @@ def current_reports():
     return [{"filename": r["filename"], "code": r["profile"].code,
                 "title": r["profile"].title, "demo": r.get("demo", False),
                 "students": r.get("students"), "chart": r.get("chart"),
+                "personnel": r.get("personnel"),
                 "sheets": r["sheets"], "warnings": r["warnings"]} for r in results]
 
 
@@ -85,6 +90,16 @@ def demo():
     result = analyze_file(DEMO_FILE.name, DEMO_FILE.read_bytes())
     session["report_key"] = report_store.save([result])
     return redirect(url_for("dashboards"))
+
+
+@app.route("/personnel", methods=["GET", "POST"])
+def personnel():
+    if request.method == "POST":
+        result = analyze_file(PERSONNEL_FILE.name, PERSONNEL_FILE.read_bytes())
+        session["report_key"] = report_store.save([result])
+        return redirect(url_for("personnel"))
+    reports = [report for report in current_reports() if report["code"] == "F10"]
+    return render_template("personnel.html", reports=reports, active="personnel")
 
 
 @app.get("/demo/download")

@@ -58,6 +58,26 @@
 .notice.error { background: var(--odk-dangerBg); color: var(--odk-danger); }
 .quality-note { margin-top: 16px; }
 .empty-chart { padding: 40px 16px; text-align: center; color: var(--odk-muted); line-height: 1.7; }
+.personnel-metrics { margin: 24px 0; }
+.personnel-chart, .personnel-detail { margin-top: 24px; }
+.personnel-legend { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 20px 0 24px; color: var(--odk-muted); font: var(--text-caption); }
+.personnel-legend i { display: inline-block; width: 9px; height: 9px; margin-right: 8px; }
+.personnel-headcount { background: var(--odk-line); }
+.personnel-dismissed { background: var(--odk-warn); }
+.personnel-hired { background: var(--odk-accent); }
+.personnel-group { margin: 0 0 24px; }
+.personnel-group h3 { margin-bottom: 12px; font: var(--text-label); }
+.personnel-bar-row { display: grid; grid-template-columns: minmax(170px, 220px) minmax(0, 1fr); align-items: center; gap: 12px; margin: 8px 0; color: var(--odk-muted); font: var(--text-caption); }
+.personnel-bar-row .bar-track { margin-right: 42px; }
+.personnel-reason-row { display: grid; grid-template-columns: minmax(180px, 1fr) minmax(0, 2fr); align-items: center; gap: 16px; margin: 16px 42px 16px 0; }
+.personnel-reason-label { display: flex; justify-content: space-between; gap: 12px; }
+.personnel-reason-label strong { color: var(--odk-warn); font: var(--text-caption); }
+.personnel-reason-row--top .personnel-reason-bar { background: var(--odk-warn); }
+.personnel-reason-row .bar-track { margin-right: 42px; }
+.personnel-detail .data-table { min-width: 800px; }
+.personnel-subcategory { padding-left: 32px !important; color: var(--odk-muted); }
+.personnel-total { font-weight: var(--font-medium); background: var(--odk-canvas); }
+.personnel-total td { border-top: 1px solid var(--odk-line); }
 footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px; color: var(--odk-muted); font: var(--text-caption); }
 footer a { color: var(--odk-accent-ink); text-underline-offset: 3px; }
 .welcome { padding: 48px 24px; text-align: center; }
@@ -92,9 +112,10 @@ footer a { color: var(--odk-accent-ink); text-underline-offset: 3px; }
   .filters .text-action { width: 100%; text-align: left; }
   .panel-heading { flex-wrap: wrap; }
   .bar-heading { flex-wrap: wrap; }
+  .personnel-bar-row { grid-template-columns: minmax(120px, 1fr); gap: 4px; }
+  .personnel-reason-row { grid-template-columns: minmax(0, 1fr); gap: 4px; margin-right: 42px; }
   .mini-chip { display: none; }
   .status-row { font-size: 11px; }
   .status-row small { min-width: 35px; margin-left: 4px; font-size: 11px; }
   .student-content { gap: 24px; }
 }
-

@@ -7,6 +7,7 @@ from numbers import Real
 from openpyxl import load_workbook
 
 from detector import PROFILE_BY_CODE, detect, normalize
+from personnel_report import personnel_report
 from student_report import student_report
 
 
@@ -81,6 +82,7 @@ def analyze_file(filename: str, content: bytes, selected_code: str = "") -> dict
             "chart": None,
             "warnings": [],
             "students": None,
+            "personnel": None,
             "demo": any("демо" in normalize(sheet.cell(1, 1).value).split() for sheet in workbook.worksheets),
         }
         if profile and profile.code == "F01":
@@ -90,6 +92,9 @@ def analyze_file(filename: str, content: bytes, selected_code: str = "") -> dict
                 result["chart"] = {"labels": labels, "values": values}
         elif profile and profile.code == "F02A":
             result["students"], warnings = student_report(workbook)
+            result["warnings"].extend(warnings)
+        elif profile and profile.code == "F10":
+            result["personnel"], warnings = personnel_report(workbook)
             result["warnings"].extend(warnings)
         elif profile:
             result["warnings"].append("Для этой формы график пока не реализован; показаны сведения о файле.")

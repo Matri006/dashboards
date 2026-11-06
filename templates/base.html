@@ -20,11 +20,11 @@
     <aside class="sidebar" aria-label="Навигация по контуру">
       <p class="sidebar__caption">РАЗДЕЛЫ</p>
       <nav aria-label="Основные разделы"><ul class="nav-list">
-      {% for key,endpoint,number,label in [('summary','summary','01','Сводка'),('training','training','02','Обучение'),('students','dashboards','03','Целевые студенты'),('quality','quality','04','Качество данных')] %}
+      {% for key,endpoint,number,label in [('summary','summary','01','Сводка'),('training','training','02','Обучение'),('students','dashboards','03','Целевые студенты'),('personnel','personnel','04','Движение персонала'),('quality','quality','05','Качество данных')] %}
         <li><a class="nav-link" href="{{ url_for(endpoint) }}" {% if active == key %}aria-current="page"{% endif %}><span class="nav-link__index">{{ number }}</span><span>{{ label }}</span></a></li>
       {% endfor %}
       </ul></nav>
-      <section class="source-list" aria-labelledby="source-title"><h2 class="source-list__title" id="source-title">ИСТОЧНИКИ</h2><ul><li>Целевые студенты · F02A</li><li>Школа мастера · F01</li></ul><p class="source-list__note">Данные из загруженных Excel.<br>Показатели разных файлов не суммируются автоматически.</p></section>
+      <section class="source-list" aria-labelledby="source-title"><h2 class="source-list__title" id="source-title">ИСТОЧНИКИ</h2><ul><li>Целевые студенты · F02A</li><li>Школа мастера · F01</li><li>Движение персонала · F10</li></ul><p class="source-list__note">Данные из загруженных Excel.<br>Показатели разных файлов не суммируются автоматически.</p></section>
       <div class="sidebar-footer"><p>Локальное приложение</p><p>Исходники и расчёты на вашем компьютере</p></div>
     </aside>
     <main class="page-content" id="main">{% block content %}{% endblock %}</main>
